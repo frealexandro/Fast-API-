@@ -1,6 +1,4 @@
 #Python
-from ast import Gt
-from operator import gt, le
 from typing import Optional
 from enum import Enum
 
@@ -97,13 +95,15 @@ def show_person(
         min_Length = 1,
         max_length=50,
         title = "Person Name",
-        description = "This is the person name. It's between 1 and 50 characters"
+        description = "This is the person name. It's between 1 and 50 characters",
+        example = "Rocio"
 
         ),
     age: str = Query(
         ...,
         title="Person Age",
-        description = "This is the person age.It's required"
+        description = "This is the person age.It's required",
+        example="25"
         )
 ):
 
@@ -117,7 +117,7 @@ def show_person(
     person_id: int = Path(
         ...,
         gt=0,
-        title = "Person id"
+        example = 123
     )
         
 
@@ -140,7 +140,8 @@ def update_person(
         ...,
         title = "Person ID",
         description = "This is the person ID",
-        gt = 0
+        gt = 0,
+        example = 123
 
     ),
     person: Person = Body (...),
