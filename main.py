@@ -1,9 +1,12 @@
-#Python 
+#Python
+from ast import Gt
+from operator import gt, le
 from typing import Optional
-
+from enum import Enum
 
 #Pydantic
 from pydantic import BaseModel
+from pydantic import Field
 
 
 
@@ -15,6 +18,13 @@ app = FastAPI()
 
 #Models
 
+class HairColor(Enum):
+    white = "white"
+    brown = "brown"
+    black = "black"
+    blonde = "blonde"
+    red = "red"
+
 class Location(BaseModel):
     city: str
     state: str
@@ -23,11 +33,21 @@ class Location(BaseModel):
 
 
 class Person(BaseModel):
-    first_name:str
-    last_name:str
+    first_name:str = Field(
+        ...,
+        min_Length = 1,
+        max_Length = 50
+    )
+    last_name:int = Field (
+        ...,
+        gt=0,
+        le= 115
+
+
+    )
     age:int
-    hair_color:Optional[str] = None
-    is_married:Optional[bool] = None
+    hair_color:Optional[HairColor] = Field (default = None)
+    is_married:Optional[bool] = Field(default =None)
 
 
 @app.get("/")
