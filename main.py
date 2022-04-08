@@ -36,18 +36,45 @@ class Person(BaseModel):
     first_name:str = Field(
         ...,
         min_Length = 1,
-        max_Length = 50
+        max_Length = 50,
+        example = "Miguel"
     )
-    last_name:int = Field (
+    last_name:str = Field (
         ...,
-        gt=0,
-        le= 115
+        min_Length =0,
+        max_Length = 115,
+        example = "Reyes Novoa"
 
 
     )
-    age:int
-    hair_color:Optional[HairColor] = Field (default = None)
-    is_married:Optional[bool] = Field(default =None)
+    age:int = Field (
+        ...,
+        gt = 0,
+        le = 115,
+        example = 25
+
+    ) 
+
+    hair_color:Optional[HairColor] = Field (default = None,example ="black")
+    is_married:Optional[bool] = Field(default =None, example=False)
+
+#    class Config:
+#       schema_extra = {
+#            "example":{
+#                "first_name": "Santiago",
+#                "last_name": "",
+#                "age": 21,
+#                "hair_color": "brown",
+#                "is_married": False
+
+ #           }
+                
+
+
+
+
+  #      }
+
 
 
 @app.get("/")
@@ -104,6 +131,9 @@ def show_person(
 ):
     return {person_id: "It exists!"}
 
+# Validations : Request Body
+
+
 @app.put("/person/{person_id}")
 def update_person(
     person_id: int = Path(
@@ -114,8 +144,9 @@ def update_person(
 
     ),
     person: Person = Body (...),
-    location: Location = Body(...)
+    #location: Location = Body(...)
 ):
-    results = person.dict()
-    results.update(location.dict())
-    return results 
+    #results = person.dict()
+    #results.update(location.dict())
+    #return results 
+    return person
