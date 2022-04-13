@@ -1,4 +1,5 @@
 #Python
+from email.policy import default
 from importlib.resources import path
 from typing import Optional
 from enum import Enum
@@ -6,13 +7,17 @@ from enum import Enum
 #Pydantic
 from pydantic import BaseModel
 from pydantic import Field
+from pydantic import EmailStr
 
+
+#Email-validator 
+#from email_validator import validate_email
 
 
 #FastAPI
 
 from fastapi import FastAPI
-from fastapi import Body , Query , Path ,Form 
+from fastapi import Body , Query , Path ,Form , Header , Cookie
 from fastapi import status 
 
 app = FastAPI()
@@ -186,6 +191,8 @@ def update_person(
     #return results 
     return person
 
+    #forms 
+
 @app.post(
     path = "/login",
     response_model = loginOut,
@@ -194,3 +201,33 @@ def update_person(
 
 def login(username: str = Form(...), password: str = Form(...)):
     return loginOut(username = username ) 
+
+    #cookies and headers parammeters
+
+@app.post(
+    path= "/contact",
+    status_code = status.HTTP_200_OK
+)
+def contact(
+    first_name:str = Form(
+        ...,
+        max_length = 20,
+        min_length = 1 
+    
+    ),
+    last_name:str = Form(
+        ...,
+        max_length = 20,
+        min_length = 1 
+    
+    ),
+    email:  EmailStr = Form(...),
+    message: str = Form (
+        ...,
+        min_length = 20
+
+    ),
+    user_agent: Optional [str] = Header(default= None ),
+    ads : Optional[str] = Cookie(default=None) 
+):
+    return user_agent
