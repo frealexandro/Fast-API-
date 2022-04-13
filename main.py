@@ -1,6 +1,4 @@
 #Python
-from email.policy import default
-from importlib.resources import path
 from typing import Optional
 from enum import Enum
 
@@ -19,6 +17,7 @@ from pydantic import EmailStr
 from fastapi import FastAPI
 from fastapi import Body , Query , Path ,Form , Header , Cookie
 from fastapi import status 
+from fastapi import HTTPException
 
 app = FastAPI()
 
@@ -114,6 +113,7 @@ def create_person(person:Person = Body(...)):
 
 #Validations :Query Parameters
 
+
 @app.get(
     path = "/person/detail",
     status_code = status.HTTP_200_OK
@@ -143,6 +143,10 @@ def show_person(
 
 # Validations : Path Parameters 
 
+persons = [1, 2, 3, 4, 5]
+
+
+
 @app.get(
     path = "/person/detail/{person_id}",
     status_code = status.HTTP_200_OK
@@ -156,15 +160,13 @@ def show_person(
         example = 123
     )
         
-
-    #age : int = Path (
-        #...,
-        #gt=0,
-        #title ="Person Age",
-        #description = "This is the person age.It's required"
-    #)
-
 ):
+    if person_id not in persons :
+        raise HTTPException (
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail= "¡This person doesn't exist!"
+
+        )
     return {person_id: "It exists!"}
 
 # Validations : Request Body
