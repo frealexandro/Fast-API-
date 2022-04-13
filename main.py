@@ -29,8 +29,8 @@ class Location(BaseModel):
     country: str
 
 
-
-class Person(BaseModel):
+class PersonBase(BaseModel):
+    
     first_name:str = Field(
         ...,
         min_Length = 1,
@@ -55,38 +55,13 @@ class Person(BaseModel):
 
     hair_color:Optional[HairColor] = Field (default = None,example ="black")
     is_married:Optional[bool] = Field(default =None, example=False)
+
+class Person(PersonBase):
+    
     password: str = Field(..., min_length = 8)
 
-class personOut(BaseModel):
-
-    first_name:str = Field(
-        ...,
-        min_Length = 1,
-        max_Length = 50,
-        example = "Miguel"
-    )
-    last_name:str = Field (
-        ...,
-        min_Length =0,
-        max_Length = 115,
-        example = "Reyes Novoa"
-
-
-    )
-    age:int = Field (
-        ...,
-        gt = 0,
-        le = 115,
-        example = 25
-
-    ) 
-
-    hair_color:Optional[HairColor] = Field (default = None,example ="black")
-    is_married:Optional[bool] = Field(default =None, example=False)
-
-
-
-
+class personOut(PersonBase):
+    pass
 
 
 #    class Config:
