@@ -1,4 +1,5 @@
 #Python
+from importlib.resources import path
 from typing import Optional
 from enum import Enum
 
@@ -12,6 +13,8 @@ from pydantic import Field
 
 from fastapi import FastAPI
 from fastapi import Body , Query , Path
+from fastapi import status 
+
 app = FastAPI()
 
 #Models
@@ -83,19 +86,32 @@ class personOut(PersonBase):
 
 
 
-@app.get("/")
+@app.get(
+    path = "/" ,
+    status_code = status.HTTP_200_OK
+    )
 def home():
     return {"Hello" : "World"}
 
 # Request and response body
 
-@app.post("/person/new", response_model = personOut)
+@app.post(
+    path = "/person/new",
+    response_model = personOut,
+    status_code = status.HTTP_201_CREATED 
+    )
+
+
 def create_person(person:Person = Body(...)):
     return person 
 
 #Validations :Query Parameters
 
-@app.get("/person/detail")
+@app.get(
+    path = "/person/detail",
+    status_code = status.HTTP_200_OK
+    
+    )
 
 def show_person(
     name: Optional[str] =   Query(
@@ -120,7 +136,12 @@ def show_person(
 
 # Validations : Path Parameters 
 
-@app.get("/person/detail/{person_id}")
+@app.get(
+    path = "/person/detail/{person_id}",
+    status_code = status.HTTP_200_OK
+    
+    
+    )
 def show_person(
     person_id: int = Path(
         ...,
@@ -142,7 +163,10 @@ def show_person(
 # Validations : Request Body
 
 
-@app.put("/person/{person_id}")
+@app.put(
+    path = "/person/{person_id}",
+    status_code = status.HTTP_200_OK
+    )
 def update_person(
     person_id: int = Path(
         ...,
