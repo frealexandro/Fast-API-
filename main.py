@@ -94,7 +94,8 @@ class loginOut(BaseModel):
 
 @app.get(
     path = "/" ,
-    status_code = status.HTTP_200_OK
+    status_code = status.HTTP_200_OK,
+    tags = ["Home"] 
     )
 def home():
     return {"Hello" : "World"}
@@ -104,7 +105,8 @@ def home():
 @app.post(
     path = "/person/new",
     response_model = personOut,
-    status_code = status.HTTP_201_CREATED 
+    status_code = status.HTTP_201_CREATED,
+    tags = ["Persons"] 
     )
 
 
@@ -116,7 +118,8 @@ def create_person(person:Person = Body(...)):
 
 @app.get(
     path = "/person/detail",
-    status_code = status.HTTP_200_OK
+    status_code = status.HTTP_200_OK,
+    tags = ["Persons"] 
     
     )
 
@@ -149,7 +152,9 @@ persons = [1, 2, 3, 4, 5]
 
 @app.get(
     path = "/person/detail/{person_id}",
-    status_code = status.HTTP_200_OK
+    status_code = status.HTTP_200_OK,
+    tags = ["Persons"]
+    
     
     
     )
@@ -174,7 +179,8 @@ def show_person(
 
 @app.put(
     path = "/person/{person_id}",
-    status_code = status.HTTP_200_OK
+    status_code = status.HTTP_200_OK,
+    tags = ["Persons"] 
     )
 def update_person(
     person_id: int = Path(
@@ -198,7 +204,8 @@ def update_person(
 @app.post(
     path = "/login",
     response_model = loginOut,
-    status_code = status.HTTP_200_OK
+    status_code = status.HTTP_200_OK,
+    tags = ["Persons"] 
 )
 
 def login(username: str = Form(...), password: str = Form(...)):
@@ -208,7 +215,8 @@ def login(username: str = Form(...), password: str = Form(...)):
 
 @app.post(
     path= "/contact",
-    status_code = status.HTTP_200_OK
+    status_code = status.HTTP_200_OK,
+    tags = ["Cookies and Files"] 
 )
 def contact(
     first_name:str = Form(
@@ -237,7 +245,8 @@ def contact(
 #files 
 
 @app.post (
-    path = "/post-image"    
+    path = "/post-image",
+    tags = ["Cookies and Files"]     
 )
 def post_image(
     image: UploadFile = File(...) 
