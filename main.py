@@ -243,7 +243,7 @@ def post_image(
     return {
         "Filename": image.filename,
         "Format": image.content_type,
-        "Size(kb)": round(len(image.file.read())/1024,ndigits = 2 )
+        "Size(kb)": round(len(image.file.read())/1024,ndigits = 3 )
 
         }
 
