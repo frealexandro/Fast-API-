@@ -120,7 +120,7 @@ def create_person(person:Person = Body(...)):
     parameters:
     - request body parameter:
 
-        -**person: Person -> A person model with first name, age , hair color and marital status**
+        -**person: Person -> A person model with first name, age , hair color and marital statuss**
 
     Returns a person model with first name, last name, age, hair color and marital status
 
